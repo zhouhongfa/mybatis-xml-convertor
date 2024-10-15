@@ -33,4 +33,4 @@ pip install -e .
 
 run test class `tests/mybatis_util_test.py`
 
-> change `inner template` path to your mybatis xml directory first!
+> change `inner template` path to your `inner_template.jinja` directory first!
