@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=40.9.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mybatis-xml-convertor"
+description = "An xml convertor"
+readme = "README.md"
+dynamic = ["version", "scripts", "entry-points"]
+requires-python = "~=3.12"
+license = { file="LICENSE.txt" }
+authors = [
+    { name = "zhf"},
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "sqlparse",
+    "regex",
+    "jinja2",
+]

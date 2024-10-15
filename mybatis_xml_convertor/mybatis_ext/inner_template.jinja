@@ -1,0 +1,88 @@
+{% macro macro_fun(arg) %}
+{% raw %} {% macro {% endraw %} {{arg.id}}(arg) {% raw %} %} {% endraw %}
+{{ arg.sql_main }}
+{{ arg.where_clause }}
+{% raw %} {% endmacro %} {% endraw %}
+{% endmacro %}
+
+{% macro if_fun(arg) %}
+{% raw %} {% {% endraw %} if arg.{{arg.condition_variable}} is defined  {% raw %}  %} {% endraw %}
+{% raw %} {% {% endraw %} if {{arg.condition}} {% raw %}  %} {% endraw %}
+{{arg.condition_text}}
+{% raw %} {% endif %} {% endraw %}
+{% raw %} {% endif %} {% endraw %}
+{% endmacro %}
+
+{% macro import_fun(arg) %}
+{% raw %}{{ {% endraw %} {{arg.import_fun}}(arg) {% raw %} }} {% endraw %}
+{% endmacro %}
+
+{% macro for_fun(arg) %}
+{% raw %}{% {% endraw %} for {{arg.item}} in arg.{{arg.collection}} {% raw %} %} {% endraw %}
+{{ arg.sub_clause }}
+{% raw %} {% endfor %} {% endraw %}
+{% endmacro %}
+
+{% macro for_sub(arg) %}
+{% raw %}{% if loop.first %}{% endraw %}
+ {{arg.open}}
+{% raw %}{% endif %}{% endraw %}
+
+{{arg.if_clause}}
+
+{% raw %} {% if not loop.last %} {% endraw %}
+{{arg.separator}}
+{% raw %} {% endif %} {% endraw %}
+
+{% raw %} {% if loop.last %} {% endraw %}
+ {{arg.close}}
+{% raw %}{% endif %} {% endraw %}
+{% endmacro %}
+
+
+{% macro for_if_fun(arg) %}
+{% raw %} {% {% endraw %} if {{arg.condition}} {% raw %}  %} {% endraw %}
+    {{arg.condition_text}}
+{% raw %} {% {% endraw %} else {% raw %} %} {% endraw %}
+    {{arg.else_text}}
+{% raw %} {% endif %} {% endraw %}
+{% endmacro %}
+
+
+{% macro trim_section_fun(arg) -%}
+{% raw %}{% {% endraw %} set trim_body {% raw %} %} {% endraw %}
+    {{arg.trim_body}}
+{% raw %}{% {% endraw %} endset {% raw %} %} {% endraw %}
+
+{% raw %}{% {% endraw %} set prefix {% raw %} %} {% endraw %}
+{{arg.prefix}}
+{% raw %}{% {% endraw %} endset {% raw %} %} {% endraw %}
+
+{% raw %}{% {% endraw %} set suffix {% raw %} %} {% endraw %}
+{{arg.suffix}}
+{% raw %}{% {% endraw %} endset {% raw %} %} {% endraw %}
+
+{% raw %}{% {% endraw %} set trim_text {% raw %} %} {% endraw %}
+{{arg.trim_text}}
+{% raw %}{% {% endraw %} endset {% raw %} %} {% endraw %}
+
+{% raw %}{{ {% endraw %} trim_fun(trim_body, prefix, suffix, trim_text) {% raw %} }} {% endraw %}
+{%- endmacro %}
+
+{% macro if_elif_else_fun(arg) -%}
+{% for if_f in arg.if_elif_funs %}
+
+{% if loop.first %}
+{% raw %} {% {% endraw %} if {{if_f.condition}} {% raw %}  %} {% endraw %}
+{{if_f.condition_text}}
+{% else %}
+{% raw %} {% {% endraw %} elif {{if_f.condition}} {% raw %}  %} {% endraw %}
+{{if_f.condition_text}}
+{% endif %}
+{% endfor %}
+
+{% raw %} {% {% endraw %} else {% raw %}  %} {% endraw %}
+{{arg.else_text}}
+{% raw %} {% {% endraw %} endif {% raw %}  %} {% endraw %}
+
+{%- endmacro %}

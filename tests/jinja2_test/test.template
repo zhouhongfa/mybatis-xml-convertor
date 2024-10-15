@@ -1,0 +1,57 @@
+
+{% macro sql_base() %}
+    select a,b from test
+{% endmacro%}
+
+{% macro test1(arg) %}
+{{ sql_base() }}
+where 1= 1 
+{% if arg.id %}
+    and id = {{arg.id}}
+{% endif %}
+
+{% if arg.b %}
+    and b = {{arg.b}}
+{% endif %}
+
+{{ "aaaaargh"|replace("a", "d'oh, ", 2) }}
+{% endmacro%}
+
+{% macro test2(arg) %}
+    select a,b from test
+    where 1= 1 
+    {% if arg.id %}
+        and id = {{arg.id}}
+    {% endif %}
+
+    {% if arg.b %}
+        and b = {{arg.b}}
+    {% endif %}
+
+{% endmacro%}
+
+{% macro trim_fun(arg, prefix, suffix, trim_text) %}
+{{prefix}}
+{{arg|trim(trim_text)}}
+{{suffix}}
+{% endmacro%}
+
+{% macro testForeach(arg) %}
+SELECT
+name,
+category,
+price
+FROM fruits
+where category = 'apple' AND name in
+{% for name in arg.apples %}
+{% if loop.first %}
+123
+{% endif %}
+{% if name is number %}{{name}}{% else %}{{quote_str(name)}}{% endif %}
+{% if not loop.last %}
+,
+{% endif %}
+{% if loop.last %}
+123
+{% endif %}
+{% endfor %}

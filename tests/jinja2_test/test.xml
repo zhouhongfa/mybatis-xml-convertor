@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mapper namespace='xxx.testMapper'>
+    <select id='selectAll'>
+        select * from ${tb_name}
+        <where>
+            and deleted_flag = 0
+            <if test="price != null and price !=''">
+                and price = #{price}
+            </if>
+            and other_col = 0
+        </where>
+        order by id desc
+    </select>
+    <insert id="testInsert">
+        insert into notes_label
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="label_name!=null">
+        label_name,
+    </if>
+            <if test="parent_id!=null">
+        parent_id,
+    </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="label_name!=null">
+        #{label_name},
+    </if>
+            <if test="parent_id!=null">
+        #{parent_id},
+    </if>
+        </trim>
+    </insert>
+    <update id="testUpdate">
+        update notes_label
+        <trim prefix="set" suffixOverrides=",">
+            <if test="label_name!=null">
+                label_name = #{label_name},
+            </if>
+            <if test="parent_id!=null">
+                parent_id = #{parent_id},
+            </if>
+            <if test="create_by!=null">
+                create_by = #{create_by},
+            </if>
+            <if test="create_time!=null">
+                create_time = #{create_time},
+            </if>
+            <if test="update_by!=null">
+                update_by = #{update_by},
+            </if>
+            <if test="update_time!=null">
+                update_time = #{update_time},
+            </if>
+            <if test="deleted_flag!=null">
+                deleted_flag = #{deleted_flag},
+            </if>
+        </trim>
+       where id = #{id}
+    </update>
+    <delete id="deleteById">
+        update notes_label set deleted_flag = 0 where id = #{id}
+    </delete>
+    <delete id="deleteByIds">
+        update notes_label set deleted_flag = 0
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">#{id}</foreach>
+    </delete>
+    <select id="count">
+        select count(*) from  notes_label 
+        where deleted_flag = 0
+        <trim prefix="" suffix="" suffixOverrides=",">
+            <if test="id!=null">
+                 and id = #{id},
+             </if>
+            <if test="label_name!=null">
+                 and label_name = #{label_name},
+             </if>
+            <if test="parent_id!=null">
+                 and parent_id = #{parent_id},
+             </if>
+            <if test="create_by!=null">
+                 and create_by = #{create_by},
+             </if>
+            <if test="create_time!=null">
+                 and create_time = #{create_time},
+             </if>
+            <if test="update_by!=null">
+                 and update_by = #{update_by},
+             </if>
+            <if test="update_time!=null">
+                 and update_time = #{update_time},
+             </if>
+            <if test="deleted_flag!=null">
+                 and deleted_flag = #{deleted_flag},
+             </if>
+        </trim>
+    </select>
+    <select id="testParameters">
+        SELECT
+        name,
+        category,
+        price
+        FROM fruits
+        WHERE category = #{category}
+        <if test="price != null and price !=''">
+            and price &gt; #{price}
+        </if>
+    </select>
+    <sql id="sometable">
+        fruits
+    </sql>
+    <sql id="somewhere">
+        WHERE
+        category = #{category}
+    </sql>
+    <sql id="someinclude">
+        FROM
+        <include refid="somewhere"/>
+    </sql>
+    <select id="testInclude">
+        SELECT
+        name,
+        category,
+        price
+        <include refid="someinclude">
+        </include>
+    </select>
+    <select id="testForeach">
+        SELECT
+        name,
+        category,
+        price
+        FROM fruits
+        where category = 'apple' AND name in
+        <foreach collection="apples" item="name" open="(" close=")" separator=",">
+            #{name}
+        </foreach>
+        <trim prefix="AND (" suffix=")" suffixOverrides=",">
+            <foreach collection="itemss" item="item" open="" close="" separator="OR">
+                <choose>
+                    <when test="item.name != null and item.name !=''">
+                        name = #{item.name},
+                    </when>
+                    <otherwise>
+                        name = 'other_name',
+                    </otherwise>
+                </choose>
+            </foreach>
+        </trim>
+    </select>
+</Mapper>

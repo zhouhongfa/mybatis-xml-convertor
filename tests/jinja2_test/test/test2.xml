@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Mapper namespace='xxx.testMapper2'>
+    <select id="testForeach">
+        SELECT
+        name,
+        category,
+        price
+        FROM fruits
+        where category = 'apple' AND
+        <choose>
+            <when test="name1 != null and name1 ==1">
+                when111 = #{name1}
+            </when>
+            <when test="name2 != null">
+                when112 = #{name2}
+            </when>
+            <otherwise>
+                when113 = #{name}
+            </otherwise>
+        </choose>
+        <!-- <trim prefix="AND (" suffix=")" suffixOverrides=",">
+            <foreach collection="itemss" item="item" open="" close="" separator="OR">
+                <choose>
+                    <when test="item.name != null and item.name ==1">
+                        when11 = #{item.name1},
+                    </when>
+                    <when test="item.name != null and item.name ==2">
+                        when11 = #{item.name2},
+                    </when>
+                    <otherwise>
+                        when11 = #{item.name0},
+                    </otherwise>
+                </choose>
+            </foreach>
+        </trim> -->
+    </select>
+</Mapper>

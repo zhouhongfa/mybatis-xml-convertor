@@ -1,0 +1,48 @@
+
+{% macro macro_fun(arg) %}
+{% raw %} {% macro {% endraw %} {{arg.id}}(arg) {% raw %} %} {% endraw %}
+{{ arg.sql_main }}
+{{ arg.where_clause }}
+{% raw %} {% endmacro %} {% endraw %}
+{% endmacro %}
+
+{% macro if_fun(arg) %}
+{% raw %} {% {% endraw %} if {{arg.condition}} {% raw %}  %} {% endraw %}
+{{arg.condition_text}}
+{% raw %} {% endif %} {% endraw %}
+{% endmacro %}
+
+{% macro import_fun(arg) %}
+{% raw %}{{ {% endraw %} {{arg.import_fun}}() {% raw %} }} {% endraw %}
+{% endmacro %}
+
+{% macro for_fun(arg) %}
+{% raw %}{% {% endraw %} for {{arg.item}} in arg.{{arg.collection}} {% raw %} %} {% endraw %}
+{{ arg.sub_clause }}
+{% raw %} {% endfor %} {% endraw %}
+{% endmacro %}
+
+{% macro for_sub(arg) %}
+{% raw %}{% if loop.first %}{% endraw %}
+ {{arg.open}}
+{% raw %}{% endif %}{% endraw %}
+
+{{arg.if_clause}}
+
+{% raw %} {% if not loop.last %} {% endraw %}
+{{arg.separator}}
+{% raw %} {% endif %} {% endraw %}
+
+{% raw %} {% if loop.last %} {% endraw %}
+ {{arg.close}}
+{% raw %}{% endif %} {% endraw %}
+{% endmacro %}
+
+
+{% macro if_else_fun(arg) %}
+{% raw %} {% {% endraw %} if {{arg.condition}} {% raw %} %} {% endraw %}
+    {{arg.condition_text}}
+{% raw %} {% {% endraw %} else {% raw %} %} {% endraw %}
+    {{arg.else_text}}
+{% raw %} {% endif %} {% endraw %}
+{% endmacro %}
