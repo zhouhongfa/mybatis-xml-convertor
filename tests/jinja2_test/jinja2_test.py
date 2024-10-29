@@ -1,6 +1,6 @@
 import unittest
 from jinja2 import Environment, PackageLoader, select_autoescape, DictLoader, FunctionLoader, FileSystemLoader, ModuleLoader
-
+from pathlib import Path
 
 def fun1(name, *args):
     if name == "fun1":
@@ -26,9 +26,10 @@ class Test(unittest.TestCase):
         self.assertEqual(template.render(arg1=1), "hello world")
 
     def test_file_loader(self):
+        print(Path(__file__).parent.absolute())
+        print(__file__)
         env = Environment(
-            loader=FileSystemLoader(
-                "/Volumes/SSDExt/data/programming/gitRepos/bb-lott-tool/tests/common/jinja2_test"),
+            loader=FileSystemLoader(Path(__file__).parent.absolute()),
             autoescape=select_autoescape()
         )
         t = env.get_template("test.template")
