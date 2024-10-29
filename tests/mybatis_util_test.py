@@ -1,7 +1,7 @@
 from mybatis_xml_convertor.mybatis_util import MybatisXmlUtil
 from jinja2 import Environment, select_autoescape, FileSystemLoader
 from pathlib import Path
-
+import unittest
 
 class TestMybatisUtil(MybatisXmlUtil):
     def __init__(self, test_path):
@@ -24,11 +24,19 @@ class TestMybatisUtil(MybatisXmlUtil):
 
         self._cache_mapper(test_path)
 
+# xml paths
+jinja2_test_path = Path(__file__).parent / 'jinja2_test'
+xml_paths = [jinja2_test_path]
+# print(xml_paths)
+mybatis_manager = TestMybatisUtil(xml_paths)
+
+# class Test(unittest.TestCase):
+#     def test(self):
+#         pass
+# if __name__ == "__main__":
+#     unittest.main()
 
 if __name__ == "__main__":
-    paths = ['tests/jinja2_test']
-
-    mybatis_manager = TestMybatisUtil(paths)
     print(mybatis_manager.render('xxx.testMapper',
           "selectAll", {"tb_name": 'table1', 'test': 't1'}))
     print(mybatis_manager.render('xxx.testMapper',
