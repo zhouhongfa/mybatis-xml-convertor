@@ -1,7 +1,7 @@
 
 # Readme
 
-Convert Mybatis xml to jinja2 template, so that we can use jinja2 template to generate sql.(Influenced by Java development experience)
+Convert Mybatis xml to jinja2 template, so that we can use jinja2 template to generate sql.
 
 Just use for study and test.
 
@@ -12,7 +12,7 @@ Just use for study and test.
 * support for `<foreach>` tag
 * support for `<trim>` tag
 * support for `<if>` tag
-* `<where>` tag
+* support for `<where>` tag
 
 ## not support
 
