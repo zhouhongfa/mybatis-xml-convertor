@@ -3,9 +3,7 @@
 
 Convert Mybatis xml to jinja2 template, so that we can use jinja2 template to generate sql.(Influenced by Java development experience)
 
-Just use for study and test, not for production, just for fun.
-
-Currently sql param values will be escaped, like `'` will be `\'`, and value will be display.
+Just use for study and test.
 
 # mybatis xml features support
 
