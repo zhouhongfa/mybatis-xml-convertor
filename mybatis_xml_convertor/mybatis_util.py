@@ -42,6 +42,7 @@ var_replace_re3 = regex.compile(r'\$\{([\w]+)\}')
 var_replace_re4 = regex.compile(r'\#\{([\w.]+)\}')
 null_re = regex.compile(r'null', flags=regex.IGNORECASE)
 
+m_varible_reg = regex.compile(r'\?')
 
 class MybatisXmlUtil:
     mybatis_section = None
@@ -69,12 +70,19 @@ class MybatisXmlUtil:
     {{ arg._sql_params.append(value)|default("", True) }}
     {% endmacro %}
     '''
+    sql_params_key = '_sql_params'
 
-    def render(self, namespace, xml_id: str, args: dict = {}):
-        args['_sql_params'] = []
+    def render(self, namespace, xml_id: str, args: dict = None):
+        if args is None:
+            args = {}
+        args[self.sql_params_key] = []
         res_sql = getattr(self.jinja_env.get_template(namespace).module, xml_id)(args)
-        print('actual params', args['_sql_params'])
-        return sqlparse.format(res_sql, strip_whitespace=True, keyword_case='upper'), args['_sql_params']
+        params = args[self.sql_params_key]
+        # print('actual params', params)
+        for x in range(len(params)):
+            res_sql = m_varible_reg.sub(f':param_{x}', res_sql, 1)
+        bind_params = {f'param_{x}': params[x] for x in range(len(params))}
+        return sqlparse.format(res_sql, strip_whitespace=True, keyword_case='upper'), bind_params
 
     def check_mapper(self, namespace, id):
         # FIXME should check ?
