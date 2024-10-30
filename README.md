@@ -33,4 +33,21 @@ pip install -e .
 
 run test class `tests/mybatis_util_test.py`
 
-> change `inner template` path to your `inner_template.jinja` directory first!
+
+# demo output
+
+```
+('SELECT name, category, price FROM fruits WHERE category = ?', ['c12'])
+actual params ['2', 123]
+('SELECT name, category, price FROM fruits WHERE category = ? AND price > ?', ['2', 123])
+.actual params ['123132', 1]
+('INSERT INTO notes_label (label_name, parent_id) VALUES (? , ?)', ['123132', 1])
+actual params ['123132', 1, 1]
+('UPDATE notes_label SET label_name = ? , parent_id = ? WHERE id = ?', ['123132', 1, 1])
+actual params [1]
+('UPDATE notes_label SET deleted_flag = 0 WHERE id = ?', [1])
+actual params [1, 2]
+('UPDATE notes_label SET deleted_flag = 0 WHERE id IN (? , ?)', [1, 2])
+actual params []
+('SELECT count(*) FROM notes_label WHERE deleted_flag = 0', [])
+```
