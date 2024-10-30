@@ -61,6 +61,8 @@ class Test(unittest.TestCase):
     def test_foreach(self):
         arg = {"apples": ['apple1', 'apple2', 'apple3'], 'itemss': [{'name': None}]}
         print(mybatis_manager.render('xxx.testMapper', "testForeach", arg))
+        arg = {"apples": ['apple1', 'apple2', 'apple3'], 'itemss': [{'name': 'itemss_1234'}]}
+        print(mybatis_manager.render('xxx.testMapper', "testForeach", arg))
         arg = {"apples": ['apple1', 'apple2', 'apple3'], 'category':  'category_1234'}
         print(mybatis_manager.render('xxx.testMapper', "testForeach", arg))
     # def test_foreach2(self):
