@@ -57,9 +57,11 @@ class MybatisXmlUtil:
     {% macro quote_str(arg) %}'{{arg|replace("'", "''")}}'{% endmacro %}
 
     {% macro trim_fun(arg, prefix, suffix, trim_text) %}
+    {% if arg|trim|length > 0 %}
     {{prefix}}
     {{arg|trim(trim_text)}}
     {{suffix}}
+    {% endif %}
     {% endmacro %}
     
     {% macro raw_temp(arg) %}
@@ -106,8 +108,9 @@ class MybatisXmlUtil:
                         mapper_xmls.append(file_path)
 
         converted_dict = dict(self.mapper_convert(mapper_xmls))
-        for converted_xml in converted_dict:
-            print(converted_dict[converted_xml])
+        # debug usage
+        # for converted_xml in converted_dict:
+        #     print(converted_dict[converted_xml])
         self.jinja_env = Environment(
             loader=DictLoader(converted_dict),
             autoescape=select_autoescape()
