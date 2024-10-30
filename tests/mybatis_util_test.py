@@ -63,17 +63,16 @@ class Test(unittest.TestCase):
         print(mybatis_manager.render('xxx.testMapper', "testForeach", arg))
         arg = {"apples": ['apple1', 'apple2', 'apple3'], 'category':  'category_1234'}
         print(mybatis_manager.render('xxx.testMapper', "testForeach", arg))
-        print(mybatis_manager.render('xxx.testMapper2',
-            "testForeach", {"name": 2, "name1": 43532}))
-        print(mybatis_manager.render('xxx.testMapper2',
-            "testForeach", {"name": 2, "name1": None, "name2": 1}))
-        print(mybatis_manager.render(
-            'xxx.testMapper2', "testForeach"))
-        # print(mybatis_manager.render('xxx.testMapper2',
-        #     "testForeach", {"apples": ['a1 and select 1', 'a2'], 'itemss': [{'name': 1, 'name1': 2, }]}))
-        # print(mybatis_manager.render('xxx.testMapper2',
-        #     "testForeach", {"apples": ['a1 and select 1', 'a2'], 'itemss': [{'name': 2, 'name2': 3}]}))
-        # print(mybatis_manager.render('xxx.testMapper2',
-        #     "testForeach", {"apples": ['a1 and select 1', 'a2'], 'itemss': [{'name': 3, 'name0': 4}]}))
+    # def test_foreach2(self):
+    #     print(mybatis_manager.render('xxx.testMapper2',
+    #         "testForeach", {"name": 2, "name1": 43532}))
+    #     print(mybatis_manager.render('xxx.testMapper2',
+    #         "testForeach", {"name": 2, "name1": None, "name2": 1}))
+    #     print(mybatis_manager.render('xxx.testMapper2',
+    #         "testForeach", {"apples": ['a1 and select 1', 'a2'], 'itemss': [{'name': 1, 'name1': 2, }]}))
+    #     print(mybatis_manager.render('xxx.testMapper2',
+    #         "testForeach", {"apples": ['a1 and select 1', 'a2'], 'itemss': [{'name': 2, 'name2': 3}]}))
+    #     print(mybatis_manager.render('xxx.testMapper2',
+    #         "testForeach", {"apples": ['a1 and select 1', 'a2'], 'itemss': [{'name': 3, 'name0': 4}]}))
 if __name__ == "__main__":
     unittest.main()
