@@ -257,7 +257,7 @@ class MybatisXmlUtil:
             text = f'{variable} is defined and ({text})'
         return null_re.sub(r'None', text)
 
-    def _replace_variable(self, text: str, append_arg=True, actual_params:list=[]) -> str:
+    def _replace_variable(self, text: str, append_arg=True) -> str:
         """
         :param text: text
         :param append_arg: if append arg to template
