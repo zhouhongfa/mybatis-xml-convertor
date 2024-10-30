@@ -64,11 +64,17 @@ class MybatisXmlUtil:
     {% macro raw_temp(arg) %}
     {{arg}}
     {% endmacro %}
+    
+    {% macro append_sql_args(arg, value) %}
+    {{ arg._sql_params.append(value)|default("", True) }}
+    {% endmacro %}
     '''
 
-    def render(self, namespace, xml_id: str, args: dict = None):
+    def render(self, namespace, xml_id: str, args: dict = {}):
+        args['_sql_params'] = []
         res_sql = getattr(self.jinja_env.get_template(namespace).module, xml_id)(args)
-        return sqlparse.format(res_sql, strip_whitespace=True, keyword_case='upper')
+        print('actual params', args['_sql_params'])
+        return sqlparse.format(res_sql, strip_whitespace=True, keyword_case='upper'), args['_sql_params']
 
     def check_mapper(self, namespace, id):
         # FIXME should check ?
@@ -92,6 +98,8 @@ class MybatisXmlUtil:
                         mapper_xmls.append(file_path)
 
         converted_dict = dict(self.mapper_convert(mapper_xmls))
+        for converted_xml in converted_dict:
+            print(converted_dict[converted_xml])
         self.jinja_env = Environment(
             loader=DictLoader(converted_dict),
             autoescape=select_autoescape()
@@ -249,12 +257,18 @@ class MybatisXmlUtil:
             text = f'{variable} is defined and ({text})'
         return null_re.sub(r'None', text)
 
-    def _replace_variable(self, text: str, append_arg=True) -> str:
+    def _replace_variable(self, text: str, append_arg=True, actual_params:list=[]) -> str:
         """
         :param text: text
         :param append_arg: if append arg to template
         :return:
         """
+        if var_replace_re4.search(text):
+            # change to ? and append actual variable to inner list
+            if append_arg:
+                text = var_replace_re4.sub(r'? {{append_sql_args(arg, arg.\1)}}', text)
+            else:
+                text = var_replace_re4.sub(r'? {{append_sql_args(arg, \1)}}', text)
         if append_arg:
             text = var_replace_re1.sub(RegexConstants.ARG_VAR.value, text)
             text = var_replace_re2.sub(RegexConstants.ARG_IF_VAR.value, text)

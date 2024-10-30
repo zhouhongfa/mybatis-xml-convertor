@@ -131,7 +131,11 @@
         category,
         price
         FROM fruits
-        where category = 'apple' AND name in
+        where category = 'apple'
+        <if test="category != null and category !=''">
+            and category = #{category}
+        </if>
+        AND name in
         <foreach collection="apples" item="name" open="(" close=")" separator=",">
             #{name}
         </foreach>
